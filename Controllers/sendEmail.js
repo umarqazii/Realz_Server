@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 import axios from 'axios';
 
-dotenv.config(); // Ensure you load environment variables from .env
+dotenv.config(); 
 
 export const sendEmail = async (req, res) => {
   try {
@@ -13,7 +13,7 @@ export const sendEmail = async (req, res) => {
       service: 'gmail',
       auth: {
         user: 'umarqazii983@gmail.com',
-        pass: process.env.gmail_pass, // Use the environment variable for the password
+        pass: process.env.gmail_pass, 
       },
     });
 
@@ -24,10 +24,8 @@ export const sendEmail = async (req, res) => {
       text: `Hello from Realz Server Created by Umar Qazi`,
     };
 
-    // Send email and await the result
     const info = await transporter.sendMail(mailOptions);
 
-    // If the email is sent successfully, return a success response
     res.status(200).json({
       message: 'Email sent successfully!',
       info: info.response,
@@ -35,7 +33,6 @@ export const sendEmail = async (req, res) => {
   } catch (err) {
     console.error('Error sending email:', err);
 
-    // Return error response if email sending fails
     res.status(500).json({
       message: 'Failed to send email',
       error: err.message,
@@ -52,7 +49,6 @@ export const sendWeatherData = async (req, res) => {
       const weatherResponse = await axios.get(`https://goweather.herokuapp.com/weather/${city}`);
       const { temperature, description, forecast } = weatherResponse.data;
   
-      // Format the forecast data
       let forecastText = forecast.map(day => `Day ${day.day}: Temp - ${day.temperature}, Wind - ${day.wind}`).join('\n');
   
       const weatherMessage = `Weather in ${city}:
@@ -62,12 +58,11 @@ export const sendWeatherData = async (req, res) => {
       Forecast:
       ${forecastText}`;
   
-      // Create transporter object using nodemailer
       const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
           user: 'umarqazii983@gmail.com',
-          pass: process.env.gmail_pass, // Use the environment variable for the password
+          pass: process.env.gmail_pass, 
         },
       });
   
@@ -81,7 +76,6 @@ export const sendWeatherData = async (req, res) => {
       // Send email and await the result
       const info = await transporter.sendMail(mailOptions);
   
-      // If the email is sent successfully, return a success response
       res.status(200).json({
         message: 'Weather data sent successfully!',
         info: info.response,
@@ -89,7 +83,6 @@ export const sendWeatherData = async (req, res) => {
     } catch (err) {
       console.error('Error sending weather data email:', err);
   
-      // Return error response if email sending fails
       res.status(500).json({
         message: 'Failed to send weather data',
         error: err.message,

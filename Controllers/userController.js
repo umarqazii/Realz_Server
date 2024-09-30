@@ -17,7 +17,6 @@ export const addUser = async (req, res) => {
     // Save the user to the database
     await newUser.save();
 
-    // Send a success response
     res.status(201).json({
       message: 'User added successfully',
       user: newUser,
@@ -34,7 +33,7 @@ export const addUser = async (req, res) => {
 // Controller function to get all users
 export const getAllUsers = async (req, res) => {
   try {
-    const users = await Users.find(); // Retrieve all users
+    const users = await Users.find(); 
     res.status(200).json(users);
   } catch (error) {
     console.error('Error retrieving users:', error);
@@ -49,7 +48,7 @@ export const getAllUsers = async (req, res) => {
 export const getUserFromId = async (req, res) => {
   try {
     const userId = req.params.id;
-    const user = await Users.findOne({userid:userId}); // Find user by ID
+    const user = await Users.findOne({userid:userId}); 
 
     if (!user) {
       return res.status(404).json({
@@ -71,7 +70,7 @@ export const getUserFromId = async (req, res) => {
 export const deleteUser = async (req, res) => {
   try {
     const userId = req.params.id;
-    const deletedUser = await Users.findOneAndDelete({userid:userId}); // Delete user by ID
+    const deletedUser = await Users.findOneAndDelete({userid:userId}); 
 
     if (!deletedUser) {
       return res.status(404).json({
